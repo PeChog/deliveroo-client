@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 import Header from "./components/Header/Header";
 import Restaurant from "./components/Restaurant/Restaurant";
 import Content from "./components/Content/Content";
 
 import "./App.scss";
+
+library.add(faStar);
 
 function App() {
   const [data, setData] = useState();
