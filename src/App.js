@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStar,
+  faSquarePlus,
+  faSquareMinus,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Header from "./components/Header/Header";
 import Restaurant from "./components/Restaurant/Restaurant";
@@ -9,14 +13,16 @@ import Content from "./components/Content/Content";
 
 import "./App.scss";
 
-library.add(faStar);
+library.add(faStar, faSquarePlus, faSquareMinus);
 
 function App() {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [cart, setCart] = useState([]);
 
-  const total = 0;
+  let total = 0;
+  const shippingCost = 2.5;
+  let subTotal = 0;
 
   const addToCart = (meal) => {
     const newCart = [...cart];
@@ -67,6 +73,8 @@ function App() {
         cart={cart}
         removeFromCart={removeFromCart}
         total={total}
+        shippingCost={shippingCost}
+        subTotal={subTotal}
       />
     </div>
   );

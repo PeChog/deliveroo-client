@@ -1,7 +1,15 @@
 import "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Content = ({ data, addToCart, cart, removeFromCart, total }) => {
+const Content = ({
+  data,
+  addToCart,
+  cart,
+  removeFromCart,
+  total,
+  shippingCost,
+  subTotal,
+}) => {
   return (
     <div className="container">
       <div className="main">
@@ -13,7 +21,6 @@ const Content = ({ data, addToCart, cart, removeFromCart, total }) => {
                   <h2 className="category">{category.name}</h2>
                   <div className="meals-container">
                     {category.meals.map((meal, num) => {
-                      total = total + meal.price;
                       return (
                         <article
                           key={num}
@@ -68,33 +75,79 @@ const Content = ({ data, addToCart, cart, removeFromCart, total }) => {
         </div>
 
         <section className="main-right">
-          {cart.map((meal, index) => {
-            return (
-              <div key={meal.id}>
-                <div>
-                  <button
-                    onClick={() => {
-                      removeFromCart(meal);
-                    }}
-                  >
-                    -
-                  </button>
-                  <span>{meal.quantity}</span>
-                  <button
-                    onClick={() => {
-                      addToCart(meal);
-                    }}
-                  >
-                    +
-                  </button>
-                </div>
+          <div className="cart">
+            <div className="valider cart-container">Valider le panier</div>
+            {cart.map((meal, index) => {
+              subTotal += meal.price * meal.quantity;
+              total = subTotal + shippingCost;
 
-                <span>{meal.title}</span>
-                <span>{meal.price * meal.quantity} €</span>
-                <div>{total}</div>
+              return (
+                <div>
+                  <div key={meal.id} className="selectedMeal cart-container">
+                    <div className="mealClass">
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ display: "flex", gap: "5px" }}>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-square-minus"
+                            onClick={() => {
+                              removeFromCart(meal);
+                            }}
+                            style={{
+                              color: "#00cebd",
+                            }}
+                          />
+
+                          <span>{meal.quantity}</span>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-square-plus"
+                            onClick={() => {
+                              addToCart(meal);
+                            }}
+                            style={{ color: "#00cebd" }}
+                          />
+                        </div>
+
+                        <span style={{ maxWidth: "190px", marginLeft: "10px" }}>
+                          {meal.title}
+                        </span>
+                      </div>
+                      <span>{(meal.price * meal.quantity).toFixed(2)} €</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+            <div>
+              <div className="subTotal cart-container">
+                <div
+                  style={{
+                    marginTop: "15px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <span>Sous-total</span>
+                  <span>{subTotal.toFixed(2)} €</span>
+                </div>
+                <div
+                  style={{
+                    marginBottom: "15px",
+                    marginTop: "15px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <span>Frais de livraison</span>
+                  <span>{shippingCost} €</span>
+                </div>
               </div>
-            );
-          })}
+
+              <div className="total">
+                <div>Total</div>
+                <div>{total.toFixed(2)} €</div>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </div>
