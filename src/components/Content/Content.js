@@ -138,7 +138,7 @@ const Content = ({
                   }}
                 >
                   <span>Frais de livraison</span>
-                  <span>{shippingCost} €</span>
+                  <span>{shippingCost}0 €</span>
                 </div>
               </div>
 
